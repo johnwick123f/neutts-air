@@ -3,7 +3,6 @@ import librosa
 import numpy as np
 import torch
 import re
-import perth
 from neucodec import NeuCodec, DistillNeuCodec
 from phonemizer.backend import EspeakBackend
 from transformers import AutoTokenizer, AutoModelForCausalLM
@@ -42,7 +41,7 @@ class NeuTTSAir:
         self._load_codec(codec_repo, codec_device)
 
         # Load watermarker
-        self.watermarker = perth.PerthImplicitWatermarker()
+        #self.watermarker = perth.PerthImplicitWatermarker()
 
     def _load_backbone(self, backbone_repo, backbone_device):
         print(f"Loading backbone from: {backbone_repo} on {backbone_device} ...")
@@ -130,9 +129,9 @@ class NeuTTSAir:
 
         # Decode
         wav = self._decode(output_str)
-        watermarked_wav = self.watermarker.apply_watermark(wav, sample_rate=24_000)
+        #watermarked_wav = self.watermarker.apply_watermark(wav, sample_rate=24_000)
 
-        return watermarked_wav
+        return wav
 
     def encode_reference(self, ref_audio_path: str | Path):
         wav, _ = librosa.load(ref_audio_path, sr=16000, mono=True)
